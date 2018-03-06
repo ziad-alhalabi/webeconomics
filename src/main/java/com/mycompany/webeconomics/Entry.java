@@ -33,6 +33,7 @@ public class Entry {
     public String keypage;
     public int advertiser;
     public String userTag;
+    public int[] userTagIntArray;
 
     public Entry(String[] nextRecord) {
         weekday = Integer.valueOf(nextRecord[0]);
@@ -57,6 +58,22 @@ public class Entry {
         keypage = nextRecord[19];
         advertiser = Integer.valueOf(nextRecord[20]);
         userTag = nextRecord[21];
+        userTagIntArray = userTagIntArray(userTag);
+    }
+    
+    
+      public final int[] userTagIntArray(String userTag){
+        
+        String[] userTagStrArray = userTag.split(",");
+        
+        int[] intArray = new int[userTagStrArray.length];
+        int i=0;
+        for (String item : userTagStrArray) {
+            intArray[i] = Integer.parseInt(item);
+            i++;
+        }
+        
+        return intArray;
     }
 
     @Override
