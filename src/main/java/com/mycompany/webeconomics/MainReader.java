@@ -23,6 +23,7 @@ public class MainReader {
             Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
             CSVReader csvReader = new CSVReader(reader);
             
+            // test
             // Reading Records One by One in a String array
             String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null) {
