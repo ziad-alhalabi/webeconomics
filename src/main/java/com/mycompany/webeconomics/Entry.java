@@ -63,5 +63,4 @@ public class Entry {
     public String toString() {
         return "Entry{" + "weekday=" + weekday + ", hour=" + hour + ", bidId=" + bidId + ", userId=" + userId + ", useragent=" + useragent + ", IP=" + IP + ", region=" + region + ", city=" + city + ", adexchange=" + adexchange + ", domain=" + domain + ", url=" + url + ", urlId=" + urlId + ", slotId=" + slotId + ", slotWidth=" + slotWidth + ", slotHeight=" + slotHeight + ", slotVisibility=" + slotVisibility + ", slotFormat=" + slotFormat + ", slotPrice=" + slotPrice + ", creative=" + creative + ", keypage=" + keypage + ", advertiser=" + advertiser + ", userTag=" + userTag + '}';
     }
-
 }
