@@ -16,7 +16,7 @@ import java.nio.file.Paths;
  */
 public class MainReader {
     
-    private static final String SAMPLE_CSV_FILE_PATH = "./tweets.csv";
+    private static final String SAMPLE_CSV_FILE_PATH = "./test.csv";
     
     public static void main(String[] args){
         try{
@@ -26,12 +26,13 @@ public class MainReader {
             // test for coursework
             // Reading Records One by One in a String array
             String[] nextRecord;
+            int i = 0;
             while ((nextRecord = csvReader.readNext()) != null) {
-                System.out.println("userid : " + nextRecord[0]);
-                System.out.println("username : " + nextRecord[1]);
-                System.out.println("tweet : " + nextRecord[2]);
-                System.out.println("createdat : " + nextRecord[3]);
+                Entry entry = new Entry(nextRecord);
+                 
+                System.out.println("Entry at "+i+": " + entry);
                 System.out.println("===========================");
+                i++;
             }
         }catch(Exception e){
             
