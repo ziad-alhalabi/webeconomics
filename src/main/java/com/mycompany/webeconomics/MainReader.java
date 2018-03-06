@@ -23,7 +23,7 @@ public class MainReader {
             Reader reader = Files.newBufferedReader(Paths.get(SAMPLE_CSV_FILE_PATH));
             CSVReader csvReader = new CSVReader(reader);
             
-            // test
+            // test for coursework
             // Reading Records One by One in a String array
             String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null) {
@@ -31,7 +31,7 @@ public class MainReader {
                 System.out.println("username : " + nextRecord[1]);
                 System.out.println("tweet : " + nextRecord[2]);
                 System.out.println("createdat : " + nextRecord[3]);
-                System.out.println("==========================");
+                System.out.println("===========================");
             }
         }catch(Exception e){
             
