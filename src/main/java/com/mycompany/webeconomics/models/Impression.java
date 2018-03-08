@@ -27,11 +27,8 @@ public class Impression {
     private String userTag; //contains multi-values, delimiter is ','
 
     public Impression(String[] entry) {
-        try{
-            this.isClicked = Boolean.valueOf(entry[0]);
-        }catch(java.lang.NumberFormatException ex){
-            this.isClicked = false;
-        }
+
+        this.isClicked = entry[0].equalsIgnoreCase("1");
         
         int day = -1;
         try{
