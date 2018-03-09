@@ -73,6 +73,11 @@ class Slot {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "Slot{" + "id=" + id + ", width=" + width + ", height=" + height + ", visibility=" + visibility + ", format=" + format + ", price=" + price + '}';
+    }
     
     
 }

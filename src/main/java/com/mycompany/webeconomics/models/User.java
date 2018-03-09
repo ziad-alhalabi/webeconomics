@@ -73,6 +73,11 @@ public class User {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "userId=" + userId + ", userAgent=" + userAgent + ", ip=" + ip + ", region=" + region + ", city=" + city + ", tag=" + tag + '}';
+    }
     
     
 }

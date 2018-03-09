@@ -24,7 +24,6 @@ public class Impression {
     private int bidPrice;
     private int payPrice; // paid price after winning the bid
     private String keyPage;
-    private String userTag; //contains multi-values, delimiter is ','
 
     public Impression(String[] entry) {
 
@@ -38,6 +37,8 @@ public class Impression {
         }
         int hour = Integer.parseInt(entry[2]);
         this.time = new BasicTime(hour,day);
+        
+        this.bidId = entry[3];
         
         int uRegion = -1;
         int uCity = -1;
@@ -220,12 +221,9 @@ public class Impression {
         this.keyPage = keyPage;
     }
 
-    public String getUserTag() {
-        return userTag;
-    }
-
-    public void setUserTag(String userTag) {
-        this.userTag = userTag;
+    @Override
+    public String toString() {
+        return "Impression{" + "isClicked=" + isClicked + ", advertiser=" + advertiser + ", time=" + time + ", bidId=" + bidId + ", user=" + user + ", adExchange=" + adExchange + ", domain=" + domain + ", url=" + url + ", urlId=" + urlId + ", slot=" + slot + ", creative=" + creative + ", bidPrice=" + bidPrice + ", payPrice=" + payPrice + ", keyPage=" + keyPage + '}';
     }
 
     

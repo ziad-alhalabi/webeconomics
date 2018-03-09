@@ -33,6 +33,11 @@ class BasicTime {
     public void setDay(int day) {
         this.day = day;
     }
+
+    @Override
+    public String toString() {
+        return "BasicTime{" + "hour=" + hour + ", day=" + day + '}';
+    }
     
     
 }
