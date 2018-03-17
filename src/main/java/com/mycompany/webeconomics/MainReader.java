@@ -9,6 +9,8 @@ import com.opencsv.CSVReader;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 /**
@@ -17,23 +19,62 @@ import java.util.Random;
  */
 public class MainReader {
 
-    private static final String SAMPLE_CSV_FILE_PATH = "./validation.csv";
+    private static final String SAMPLE_CSV_FILE_PATH = "we_data/validation.csv";
     private static final int BUDGET = 6250000;
+    private static HashMap<Integer, ArrayList<Double>> clicksMap = new HashMap<>();
 
     public static void main(String[] args) {
-        boolean randomBiding = true;
+        boolean randomBiding = false;
+        boolean optimiseBid = true;
 
         if (randomBiding) {
             randomBid();
         } else {
-            double constantBid = getMeanBidPrice();
-            System.out.println("constantBid=" + constantBid);
-            constantBid(constantBid);
+
+            if (optimiseBid) {
+                double optimised = processOptimalBid();
+                // optimised already therefore false 
+                System.out.println("Optimised bid used: " + optimised);
+                constantBid(optimised, false);
+            } else {
+                double constantBid = getMeanBidPrice();
+                constantBid(constantBid, false);
+            }
+
         }
 
     }
+    
+    private static double processOptimalBid() {
 
-    private static void constantBid(double constantBid) {
+        for (double a = 1; a < 500; a++) {
+            constantBid(a, true);
+        }
+        
+        // find max clicks
+        int max = 1;
+        for (int clicks: clicksMap.keySet()) {
+            if(max < clicks)
+                max = clicks;
+        }
+        
+        //retreive 
+        ArrayList<Double> topBids = clicksMap.get(max);
+        
+        if (topBids == null)
+                return 0;
+        
+        double tots = 0;
+        for(double d: topBids) {
+            tots=tots+d; 
+        }
+
+        // return mean if top bids
+        return tots/topBids.size();
+
+    }
+
+    private static void constantBid(double constantBid, boolean optimiseBid) {
         int numBidImpressions = 0;
         int numClicked = 0;
         double cost = 0;
@@ -53,18 +94,40 @@ public class MainReader {
                     //since we won the bid, we get the impression and might get a click 
                     numBidImpressions++;
                     numClicked += entry.click;
-                    System.out.println("Entry at " + i + ": " + entry);
-                    System.out.println("===========================");
-                }else if(cost >= BUDGET){
+                    
+                    // System.out.println("Entry at " + i + ": " + entry);
+                    // System.out.println("===========================");
+                } else if (cost >= BUDGET) {
                     break;
                 }
 
                 i++;
             }
+            
+            
 
-            System.out.println("Num Bids= " + numBidImpressions);
-            System.out.println("Num Clicked= " + numClicked);
-            System.out.println("Cost=" + cost);
+            if (optimiseBid) {
+
+                if (!clicksMap.containsKey(numClicked)) {
+                    ArrayList<Double> arr = new ArrayList<>();
+                    arr.add(constantBid);
+
+                    clicksMap.put(numClicked, arr);
+                } else {
+                    ArrayList<Double> arr;
+                    arr = clicksMap.get(numClicked);
+                    arr.add(constantBid);
+                    clicksMap.put(numClicked, arr);
+                }
+            }
+            else {
+                
+            System.out.println("Impressions: " + numBidImpressions);
+            System.out.println("Clicks: " + numClicked);
+            System.out.println("Cost: " + cost);
+                
+                
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,14 +143,17 @@ public class MainReader {
             String[] nextRecord;
             double i = 0;
             double totalBidPrice = 0;
-            csvReader.readNext();//skip header
+
+            HashMap<Double, Integer> map = new HashMap<>();
+
+            csvReader.readNext();// skip header
             while ((nextRecord = csvReader.readNext()) != null) {
                 ValidationEntry entry = new ValidationEntry(nextRecord);
                 if (entry.bidPrice > -1) {//just to be safe
                     totalBidPrice += entry.bidPrice;
                     i++;
+                    }
                 }
-            }
 
             meanBidPrice = totalBidPrice / i;
 
@@ -127,7 +193,7 @@ public class MainReader {
                     numClicked += entry.click;
                     System.out.println("Entry at " + i + ": " + entry);
                     System.out.println("===========================");
-                }else if(cost >= BUDGET){
+                } else if (cost >= BUDGET) {
                     break;
                 }
 
