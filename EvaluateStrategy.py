@@ -87,3 +87,26 @@ def evaluateStrategy(y_pred):
     plt.xlabel('baseBids')
     plt.ylabel('Number of clicks')
     plt.show()
+
+
+# params - predict_proba, dataset(training data), validation clicks
+def visualise_auc(pCTR_train, dataset, y_valid):
+    from sklearn import metrics
+    pCTRtrain = pd.DataFrame(pCTR_train)
+
+    pctrval_list = []
+
+    bin_count = len(dataset) / 2 * np.bincount(dataset.click)
+    opt_bin = bin_count[1] / bin_count[0]
+
+    for p in pCTRtrain[1]:
+        pctrval_list.append(p / (p + ((1 - p) / opt_bin)))
+
+    pctr_val = pd.DataFrame(pctrval_list)
+    f, t, th = metrics.roc_curve(y_valid, pctr_val)
+
+    fig, axes = plt.subplots(1, figsize=(8, 5))
+    auc = 'AUC=%.5f' % metrics.auc(f, t)
+    axes.step(f, t, lw=2, label=auc)
+    axes.legend(loc='lower right', fontsize='small')
+    plt.show()
